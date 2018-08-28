@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.automed.api.AMNetworkType;
@@ -30,44 +31,42 @@ public class RewardVideoAdActivity extends Activity {
 
     private static String TAG = "RewardVideoAdActivity";
     String unitIds[] = new String[]{
-            DemoApplicaion.mPlacementId_rewardvideo_all
-            , DemoApplicaion.mPlacementId_rewardvideo_facebook
-            , DemoApplicaion.mPlacementId_rewardvideo_admob
-            , DemoApplicaion.mPlacementId_rewardvideo_inmobi
-            , DemoApplicaion.mPlacementId_rewardvideo_flurry
-            , DemoApplicaion.mPlacementId_rewardvideo_applovin
-            , DemoApplicaion.mPlacementId_rewardvideo_mintegral
-            , DemoApplicaion.mPlacementId_rewardvideo_mopub
-            , DemoApplicaion.mPlacementId_rewardvideo_GDT
-            , DemoApplicaion.mPlacementId_rewardvideo_CHARTBOOST
-            , DemoApplicaion.mPlacementId_rewardvideo_TAPJOY
-            , DemoApplicaion.mPlacementId_rewardvideo_IRONSOURCE
-            , DemoApplicaion.mPlacementId_rewardvideo_UNITYAD
-            , DemoApplicaion.mPlacementId_rewardvideo_vungle
-            , DemoApplicaion.mPlacementId_rewardvideo_adcolony
-            , DemoApplicaion.mPlacementId_rewardvideo_toutiao
+            AMApplication.PLACEMENTID_REWARDVIDEO_ALL
+            , AMApplication.PLACEMENTID_REWARDVIDEO_FACEBOOK
+            , AMApplication.PLACEMENTID_REWARDVIDEO_ADMOB
+            , AMApplication.PLACEMENTID_REWARDVIDEO_INMOBI
+            , AMApplication.PLACEMENTID_REWARDVIDEO_FLURRY
+            , AMApplication.PLACEMENTID_REWARDVIDEO_APPLOVIN
+            , AMApplication.PLACEMENTID_REWARDVIDEO_MINTEGRAL
+            , AMApplication.PLACEMENTID_REWARDVIDEO_MOPUB
+            , AMApplication.PLACEMENTID_REWARDVIDEO_GDT
+            , AMApplication.PLACEMENTID_REWARDVIDEO_CHARTBOOST
+            , AMApplication.PLACEMENTID_REWARDVIDEO_TAPJOY
+            , AMApplication.PLACEMENTID_REWARDVIDEO_IRONSOURCE
+            , AMApplication.PLACEMENTID_REWARDVIDEO_UNITYAD
+            , AMApplication.PLACEMENTID_REWARDVIDEO_VUNGLE
+            , AMApplication.PLACEMENTID_REWARDVIDEO_ADCOLONY
+            , AMApplication.PLACEMENTID_REWARDVIDEO_TOUTIAO
     };
 
     String unitGroupName[] = new String[]{
             "All network",
-            "facebook",
-            "admob",
-            "inmobi",
-            "flurry",
-            "applovin",
-            "mintegral",
-            "mopub",
-            "gdt",
-            "chartboost",
-            "tapjoy",
-            "ironsource",
-            "unity3d",
-            "vungle",
-            "adcolony",
-            "toutiao"
+            "Facebook",
+            "Admob",
+            "Inmobi",
+            "Flurry",
+            "Applovin",
+            "Mintegral",
+            "Mopub",
+            "GDT",
+            "Chartboost",
+            "Tapjoy",
+            "iIronsource",
+            "Unity3d",
+            "Vungle",
+            "Adcolony",
+            "Toutiao"
     };
-
-    RadioGroup mRadioGroup;
 
 
     int mCurrentSelectIndex;
@@ -80,27 +79,32 @@ public class RewardVideoAdActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        mRadioGroup = (RadioGroup) findViewById(R.id.placement_select_group);
+        Spinner spinner = (Spinner) findViewById(R.id.video_spinner);
+        // 声明一个ArrayAdapter用于存放简单数据
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                RewardVideoAdActivity.this, android.R.layout.simple_spinner_dropdown_item,
+                unitGroupName);
+        // 把定义好的Adapter设定到spinner中
+        spinner.setAdapter(adapter);
+        // 为第一个Spinner设定选中事件
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-        for (int i = 0; i < unitIds.length; i++) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setPadding(20, 20, 20, 20);                 // 设置文字距离按钮四周的距离
-            radioButton.setText(unitGroupName[i]);
-            radioButton.setId(i);
-            mRadioGroup.addView(radioButton);
-        }
-
-        mRadioGroup.check(0);
-
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                mCurrentSelectIndex = i;
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                // 在选中之后触发
+                Toast.makeText(RewardVideoAdActivity.this,
+                        parent.getItemAtPosition(position).toString(),
+                        Toast.LENGTH_SHORT).show();
+                mCurrentSelectIndex = position;
                 init();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
-//        mCurrentSelectIndex = 9;
         init();
 
         findViewById(R.id.is_ad_ready_btn).setOnClickListener(new View.OnClickListener() {
@@ -141,7 +145,7 @@ public class RewardVideoAdActivity extends Activity {
             mRewardVideoAd = null;
         }
         mRewardVideoAd = new AMRewardVideoAd(this, unitIds[mCurrentSelectIndex]);
-        String userid = "test_userid_001";
+        String userid = "am_userid";
         mRewardVideoAd.setUserData(userid, "");
         addSetting();
         mRewardVideoAd.setAdListener(new AMRewardVideoListener() {

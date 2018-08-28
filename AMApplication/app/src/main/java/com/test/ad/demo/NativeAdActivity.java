@@ -3,9 +3,10 @@ package com.test.ad.demo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.automed.api.AdError;
@@ -22,35 +23,33 @@ import java.util.Map;
 public class NativeAdActivity extends Activity {
 
     String unitIds[] = new String[]{
-            DemoApplicaion.mPlacementId_native_all
-            , DemoApplicaion.mPlacementId_native_facebook
-            , DemoApplicaion.mPlacementId_native_admob
-            , DemoApplicaion.mPlacementId_native_inmobi
-            , DemoApplicaion.mPlacementId_native_flurry
-            , DemoApplicaion.mPlacementId_native_applovin
-            , DemoApplicaion.mPlacementId_native_mintegral
-            , DemoApplicaion.mPlacementId_native_mopub
-            , DemoApplicaion.mPlacementId_native_GDT
+            AMApplication.PLACEMENTID_NATIVE_ALL
+            , AMApplication.PLACEMENTID_NATIVE_FACEBOOK
+            , AMApplication.PLACEMENTID_NATIVE_ADMOB
+            , AMApplication.PLACEMENTID_NATIVE_INMOBI
+            , AMApplication.PLACEMENTID_NATIVE_FLURRY
+            , AMApplication.PLACEMENTID_NATIVE_APPLOVIN
+            , AMApplication.PLACEMENTID_NATIVE_MINTEGRAL
+            , AMApplication.PLACEMENTID_NATIVE_MOPUB
+            , AMApplication.PLACEMENTID_NATIVE_GDT
 
     };
 
     String unitGroupName[] = new String[]{
             "All network",
-            "facebook",
-            "admob",
-            "inmobi",
-            "flurry",
-            "applovin",
-            "mintegral",
-            "mopub",
-            "gdt"
+            "Facebook",
+            "Admob",
+            "Inmobi",
+            "Flurry",
+            "Applovin",
+            "Mintegral",
+            "Mopub",
+            "GDT"
     };
 
     AMNative amNatives[] = new AMNative[unitIds.length];
     AMNativeAdView amNativeAdView;
     NativeAd mNativeAd;
-
-    RadioGroup mRadioGroup;
 
     int mCurrentSelectIndex;
 
@@ -61,24 +60,33 @@ public class NativeAdActivity extends Activity {
 
         setContentView(R.layout.activity_native);
 
-        mRadioGroup = (RadioGroup) findViewById(R.id.placement_select_group);
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        // 声明一个ArrayAdapter用于存放简单数据
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                NativeAdActivity.this, android.R.layout.simple_spinner_dropdown_item,
+                unitGroupName);
+        // 把定义好的Adapter设定到spinner中
+        spinner.setAdapter(adapter);
+        // 为第一个Spinner设定选中事件
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-        for (int i = 0; i < unitIds.length; i++) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setPadding(20, 20, 20, 20);                 // 设置文字距离按钮四周的距离
-            radioButton.setText(unitGroupName[i]);
-            radioButton.setId(i);
-            mRadioGroup.addView(radioButton);
-        }
-
-        mRadioGroup.check(0);
-
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                mCurrentSelectIndex = i;
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                // 在选中之后触发
+                Toast.makeText(NativeAdActivity.this,
+                        parent.getItemAtPosition(position).toString(),
+                        Toast.LENGTH_SHORT).show();
+                mCurrentSelectIndex = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 这个一直没有触发，我也不知道什么时候被触发。
+                //在官方的文档上说明，为back的时候触发，但是无效，可能需要特定的场景
             }
         });
+
 
         final AMRender amRender = new AMRender(this);
 
@@ -121,8 +129,6 @@ public class NativeAdActivity extends Activity {
             @Override
             public void onClick(View view) {
                 HashMap<String, String> maps = new HashMap<>();
-                maps.put("age", "22");
-                maps.put("sex", "lady");
                 amNatives[mCurrentSelectIndex].makeAdRequest(maps);
             }
         });
