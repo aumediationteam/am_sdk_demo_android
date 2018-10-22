@@ -46,6 +46,16 @@
             android:label="AM RewardedVideo"
             android:launchMode="singleTask"></activity>
 
+        <activity
+            android:name="com.test.ad.demo.InterstitialAdActivity"
+            android:label="UpArpu Interstitial"
+            android:launchMode="singleTask"></activity>
+
+        <activity
+            android:name="com.test.ad.demo.BannerAdActivity"
+            android:label="UpArpu Banner"
+            android:launchMode="singleTask"></activity>
+
         <!--接入广告平台需要的组件-->
         <!--接入applovin必须静态写入sdkkey-->
         <meta-data
@@ -79,6 +89,11 @@
             android:name="com.mintegral.msdk.reward.player.MTGRewardVideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <activity
+            android:name="com.mintegral.msdk.interstitial.view.MTGInterstitialActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
 
         <!-- mopub -->
         <activity
@@ -192,13 +207,87 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/gdt_file_path" />
+                android:resource="@xml/file_path" />
         </provider>
+
+        <!--玩转互联-->
+        <activity
+            android:name="com.uniplay.adsdk.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"></activity>
+        <activity
+            android:name="com.uniplay.adsdk.InterstitialAdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent" />
+
+        <activity
+            android:name="com.uniplay.adsdk.NetworkChangeActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent"/>
+
+        <receiver android:name="com.uniplay.adsdk.PackageReceiver">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.uniplay.adsdk.DownloadService" />
+
         <provider
-            android:name="com.bytedance.sdk.openadsdk.service.TTDownloadProvider"
-            android:authorities="${applicationId}.union_adsdk_tt"
+            android:name="com.uniplay.adsdk.UniPlayFileProvider"
+            android:authorities="${applicationId}.uniplay.fileprovider"
             android:exported="false"
-            ></provider>
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
+        <!--one way -->
+        <activity
+            android:name="mobi.oneway.sdk.AdShowActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <provider
+            android:name="com.automed.network.oneway.OnewayAMFileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
+        <provider
+            android:name="com.liulishuo.okdownload.OkDownloadProvider"
+            android:authorities="${applicationId}.com.liulishuo.okdownload"
+            android:exported="false"/>
+
+        <!-- 金山云-->
+        <provider
+            android:name="com.ksc.ad.sdk.util.KsyunFileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
+        <!--yeahmobi-->
+        <!-- Necessary -->
+        <activity
+            android:name="com.cloudtech.ads.view.InnerWebLandingActivity"
+            android:launchMode="singleInstance" />
+        <activity android:name="com.cloudtech.ads.view.InterstitialActivity" />
+        <activity android:name="com.cloudtech.videoads.view.CTInterstitialActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
     </application>
 
 </manifest>

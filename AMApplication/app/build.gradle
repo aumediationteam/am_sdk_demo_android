@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.automediation.demo"
+        applicationId "com.superapp.filemanager"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
@@ -40,50 +40,90 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
 
 
+//applovin 8.0.1 支持GDPR
     compile 'com.applovin:applovin-sdk:8.0.1'
 
+    //inmobi GDPR 7.0.0-->7.1.0
     compile "com.inmobi.monetization:inmobi-ads:7.1.0"
     compile 'com.squareup.picasso:picasso:2.5.2'
 
+    //admob
     compile 'com.google.android.gms:play-services-ads:11.0.1'
     compile 'com.google.android.ads.consent:consent-library:1.0.4'
+    //GDPR支持
     compile 'com.google.android.ads.consent:consent-library:1.0.6'
 
+    //facebook
     compile ('com.facebook.android:audience-network-sdk:4.28.+'){
         exclude module: 'support-v4'
     }
 
+    //flurry GDPR 8.0.2-->10.0.0
     compile 'com.flurry.android:analytics:10.0.0@aar'
     compile 'com.flurry.android:ads:10.0.0@aar'
 
-    compile('com.mopub:mopub-sdk:5.1.0@aar') {
+    //mopub
+    compile('com.mopub:mopub-sdk:5.3.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+//    compile('com.mopub:mopub-sdk:4.11.0@aar'){
+//        transitive = true
+//    }
+    // For native static (images).
+    compile('com.mopub:mopub-sdk-native-static:5.3.0@aar') {
+        transitive = true
+        exclude module: 'libAvid-mopub' // To exclude AVID
+        exclude module: 'moat-mobile-app-kit' // To exclude Moat
+    }
+    // For native video. This will automatically also include native static
+    compile('com.mopub:mopub-sdk-native-video:5.3.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
     }
 
-    compile('com.mopub:mopub-sdk-native-static:5.1.0@aar') {
-        transitive = true
-        exclude module: 'libAvid-mopub' // To exclude AVID
-        exclude module: 'moat-mobile-app-kit' // To exclude Moat
-    }
-    compile('com.mopub:mopub-sdk-native-video:5.1.0@aar') {
-        transitive = true
-        exclude module: 'libAvid-mopub' // To exclude AVID
-        exclude module: 'moat-mobile-app-kit' // To exclude Moat
-    }
-
-    compile('com.mopub:mopub-sdk-rewardedvideo:5.1.0@aar') {
+    compile('com.mopub:mopub-sdk-rewardedvideo:5.3.0@aar') {
         transitive = true
     }
 
+    // For banners
+    compile('com.mopub:mopub-sdk-banner:5.3.0@aar') {
+        transitive = true
+    }
 
+    // For interstitials
+    compile('com.mopub:mopub-sdk-interstitial:5.3.0@aar') {
+        transitive = true
+    }
+
+
+    // ironsource
     compile 'com.ironsource.sdk:mediationsdk:6.7.9.1@jar'
 
+    //adcolony SDK dependency
     compile 'com.adcolony:sdk:3.3.5'
 
-    compile 'com.github.vungle:vungle-android-sdk:5.3.2'
+    //Add Vungle SDK dependency
+    compile 'com.github.vungle:vungle-android-sdk:6.3.12'
 
     compile 'com.android.support:appcompat-v7:26+'
+
+    //one way
+    compile 'com.liulishuo.okdownload:okdownload:1.0.3'
+    compile 'com.liulishuo.okdownload:sqlite:1.0.3'
+    compile 'com.liulishuo.okdownload:okhttp:1.0.3'
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+
+    //yeahmbi
+    compile 'com.cloudtech:ads:3.3.0'
+    compile 'com.cloudtech:imageloader:3.3.0'   // for preload image
+    compile 'com.cloudtech:videoads:3.3.0'
+
+    //appnext
+    compile 'com.appnext.sdk:ads:2.+'
+    compile 'com.appnext.sdk:banners:2.+'
+    compile 'com.appnext.sdk:native-ads2:2.+' // New Native Ads
 
 }

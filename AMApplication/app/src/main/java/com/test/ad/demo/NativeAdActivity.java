@@ -31,6 +31,9 @@ public class NativeAdActivity extends Activity {
             , DemoApplicaion.mPlacementId_native_mintegral
             , DemoApplicaion.mPlacementId_native_mopub
             , DemoApplicaion.mPlacementId_native_GDT
+            , DemoApplicaion.mPlacementId_native_mobpower
+            , DemoApplicaion.mPlacementId_native_yeahmobi
+            , DemoApplicaion.mPlacementId_native_appnext
 
     };
 
@@ -43,7 +46,10 @@ public class NativeAdActivity extends Activity {
             "applovin",
             "mintegral",
             "mopub",
-            "gdt"
+            "gdt",
+            "mobpower",
+            "yeahmobi",
+            "appnext"
     };
 
     AMNative amNatives[] = new AMNative[unitIds.length];
@@ -67,7 +73,7 @@ public class NativeAdActivity extends Activity {
             RadioButton radioButton = new RadioButton(this);
             radioButton.setPadding(20, 20, 20, 20);                 // 设置文字距离按钮四周的距离
             radioButton.setText(unitGroupName[i]);
-            radioButton.setId(i);
+            radioButton.setId(i + 1000);
             mRadioGroup.addView(radioButton);
         }
 
@@ -76,7 +82,7 @@ public class NativeAdActivity extends Activity {
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                mCurrentSelectIndex = i;
+                mCurrentSelectIndex = i - 1000;
             }
         });
 
