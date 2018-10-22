@@ -48,12 +48,12 @@
 
         <activity
             android:name="com.test.ad.demo.InterstitialAdActivity"
-            android:label="UpArpu Interstitial"
+            android:label="AM Interstitial"
             android:launchMode="singleTask"></activity>
 
         <activity
             android:name="com.test.ad.demo.BannerAdActivity"
-            android:label="UpArpu Banner"
+            android:label="AM Banner"
             android:launchMode="singleTask"></activity>
 
         <!--接入广告平台需要的组件-->
